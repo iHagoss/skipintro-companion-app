@@ -1,0 +1,23 @@
+name: Unzip Uploaded Project
+
+on:
+  push:
+    paths:
+      - 'skipintro-companion-app.zip'
+  workflow_dispatch:
+
+jobs:
+  unzip:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Unzip the project files
+        run: |
+          unzip -o skipintro-companion-app.zip -d .
+          rm skipintro-companion-app.zip
+
+      - name: Show repo contents
+        run: ls -l
