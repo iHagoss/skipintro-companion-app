@@ -1,23 +1,33 @@
-name: Unzip Uploaded Project
+name: Extract ZIPs in-place
 
 on:
   push:
     paths:
-      - 'skipintro-companion-app.zip'
+      - '**.zip'
   workflow_dispatch:
 
 jobs:
   unzip:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-      - name: Unzip the project files
+      - name: Extract all ZIPs in-place
         run: |
-          unzip -o skipintro-companion-app.zip -d .
-          rm skipintro-companion-app.zip
+          find . -type f -name '*.zip' | while read zipfile; do
+            dir=$(dirname "$zipfile")
+            unzip -o "$zipfile" -d "$dir"
+            rm "$zipfile"
+          done
 
-      - name: Show repo contents
-        run: ls -l
+      - name: Commit extracted files
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add .
+          git commit -m "Extracted ZIPs in-place"
+          git push origin HEAD
