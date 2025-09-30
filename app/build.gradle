@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.ihagoss.skipintro-companion-app'
+    namespace 'com.ihagoss.skipintrocompanionapp'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.ihagoss.skipintro-companion-app"
+        applicationId "com.ihagoss.skipintrocompanionapp"
         minSdk 24
         targetSdk 34
         versionCode 1
