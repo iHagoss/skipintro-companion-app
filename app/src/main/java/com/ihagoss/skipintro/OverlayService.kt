@@ -50,8 +50,4 @@ class OverlayService : Service() {
         super.onDestroy()
         overlayView?.let { windowManager.removeView(it) }
     }
-}    override fun onDestroy() {
-        super.onDestroy()
-        overlayView?.let { windowManager.removeView(it) }
-    }
 }
