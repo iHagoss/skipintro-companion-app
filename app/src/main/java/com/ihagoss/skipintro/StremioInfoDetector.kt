@@ -1,4 +1,4 @@
-package com.ihagoss.skipintro
+package com.ihagoss.skipintrocompanionapp
 
 import android.content.Context
 import android.app.usage.UsageStatsManager
