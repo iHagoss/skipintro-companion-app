@@ -24,7 +24,13 @@ jobs:
       run: chmod +x ./gradlew
 
     - name: Build Debug APK
-      run: ./gradlew assembleDebug
+      run: ./gradlew assembleDebug --stacktrace
+
+    - name: Upload Gradle Problems Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: gradle-problems-report
+        path: build/reports/problems/problems-report.html
 
     - name: Upload APK artifact
       uses: actions/upload-artifact@v4
