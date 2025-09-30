@@ -6,6 +6,7 @@ import org.json.JSONObject
 import java.net.URL
 
 object SkipIntroDataFetcher {
+    // Use the same API as your skip intro Stremio Enhanced addon
     private const val SERVER_URL = "https://busy-jacinta-shugi-c2885b2e.koyeb.app"
 
     suspend fun getIntroRange(episodeId: String, fileId: String, title: String): IntroRange? {
