@@ -7,6 +7,9 @@ import android.os.IBinder
 import android.view.LayoutInflater
 import android.view.WindowManager
 import android.widget.ImageButton
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class OverlayService : Service() {
     private lateinit var windowManager: WindowManager
@@ -20,8 +23,17 @@ class OverlayService : Service() {
         val inflater = LayoutInflater.from(this)
         val view = inflater.inflate(R.layout.overlay_button, null)
         overlayView = view.findViewById(R.id.skip_button)
+
         overlayView?.setOnClickListener {
-            // TODO: Get skip range for current episode, simulate seek via AccessibilityController
+            CoroutineScope(Dispatchers.Main).launch {
+                val episodeInfo = StremioInfoDetector.getCurrentEpisodeInfo(this@OverlayService)
+                if (episodeInfo != null) {
+                    val range = SkipIntroDataFetcher.getIntroRange(episodeInfo.episodeId, episodeInfo.fileId, episodeInfo.title)
+                    if (range != null && range.start > 0) {
+                        AccessibilityController.skipTo(this@OverlayService, range.start + range.offset)
+                    }
+                }
+            }
         }
 
         val params = WindowManager.LayoutParams(
@@ -35,6 +47,10 @@ class OverlayService : Service() {
     }
 
     override fun onDestroy() {
+        super.onDestroy()
+        overlayView?.let { windowManager.removeView(it) }
+    }
+}    override fun onDestroy() {
         super.onDestroy()
         overlayView?.let { windowManager.removeView(it) }
     }
