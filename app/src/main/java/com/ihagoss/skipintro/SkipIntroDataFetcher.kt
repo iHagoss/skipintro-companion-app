@@ -1,4 +1,4 @@
-package com.ihagoss.skipintro
+package com.ihagoss.skipintrocompanionapp
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
