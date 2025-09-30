@@ -1,4 +1,4 @@
-package com.ihagoss.skipintro
+package com.ihagoss.skipintrocompanionapp
 
 import android.accessibilityservice.AccessibilityService
 import android.content.Context
