@@ -1,33 +1,23 @@
-name: Extract Tar Files in-place
+name: Unzip Uploaded Project
 
 on:
   push:
     paths:
-      - '**.tar'
+      - 'skipintro-companion-app.zip'
   workflow_dispatch:
 
 jobs:
-  untar:
+  unzip:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Extract all Tar files in-place
+      - name: Unzip the project files
         run: |
-          find . -type f -name '*.tar' | while read tarfile; do
-            dir=$(dirname "$tarfile")
-            tar -xf "$tarfile" -C "$dir"
-            rm "$tarfile"
-          done
+          unzip -o skipintro-companion-app.zip -d .
+          rm skipintro-companion-app.zip
 
-      - name: Commit extracted files
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git add .
-          git commit -m "Extracted tar files in-place"
-          git push origin HEAD
+      - name: Show repo contents
+        run: ls -l
